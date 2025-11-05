@@ -1,0 +1,99 @@
+body{
+    background: white;
+    color: black;
+    font-weight: bold;
+}
+
+#parrent{
+    padding: 50px;
+    width: 2.5in;
+    margin: 0 auto;
+    height: 2in;
+    text-align: center;
+}
+
+.company {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 2px;
+}
+
+.small-text {
+    text-align: center;
+    font-size: 12px;
+    color: #675858;
+}
+
+.outer-circle {
+    width: 30px;
+    height: 30px;
+    border: black 2px solid;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+
+.small-circle {
+    border: black 1px solid;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: 4px;
+    margin-left: 3px;
+}
+
+.flex {
+    display: flex;
+}
+
+.fill-black{
+    background: black;
+    margin-left: 9px;
+}
+
+.line-vertical {
+    top: -4px;
+    left: 119px;
+    position: relative;
+    width: 1px;
+    border-left: black 1px solid;
+    height: 10px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.filled-circle-info {
+    font-size: 10px;
+    position: relative;
+    top: -5px;
+}
+
+.outer-circle-info {
+    font-size: 10px;
+    position: relative;
+    top: -47px;
+    right: 66px;
+}
+
+.line-horizontal {
+    bottom: 40px;
+    left: 84px;
+    position: relative;
+    width: 20px;
+    border-bottom: black 1px solid;
+    height: 1px;
+}
+
+.mfg-exp {
+    font-size: 12px;
+    position: relative;
+    top: 18px;
+    color: #675858;
+}
+
+.space-between {
+    justify-content: space-between;
+}
