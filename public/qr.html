@@ -1,32 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/print.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/print.css">
+  <link rel="stylesheet" href="/css/qr.css">
 </head>
+
 <body>
-      <header>
-        <a href="/sticker">Sticker</a>
-        <a href="/shooter_sticker">Shooter</a>
-        <a href="/qr">Qr</a>
-        <a href="/logout" onclick="return confirm('Are you sure to logout ?')">Logout</a>
-    </header>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<div id="qrcode"></div>
+  <header>
+    <a href="/sticker">Sticker</a>
+    <a href="/shooter_sticker">Shooter</a>
+    <a href="/qr">Qr</a>
+    <a href="/logout" onclick="return confirm('Are you sure to logout ?')">Logout</a>
+  </header>
 
-<script>
-  new QRCode(document.getElementById("qrcode"), {
-    text: "https://example.com",
-    width: 70,
-    height: 70,
-    colorDark: "#000",
-    colorLight: "#fff",
-    correctLevel: QRCode.CorrectLevel.H
-  });
-</script>
+  <div id="parrent">
+    <div class="product-name"></div>
+    <div class="flex between">
+      <div id="qrcode"></div>
+      <div class="info-container between">
+        <div class="info-item">
+          <b class="badge">REF</b>
+          <div class="values">
+            <span id="ref-no-info"></span>
+          </div>
+        </div>
+        <div class="info-item">
+          <b class="badge">LOT</b>
+          <div class="values">
+            <span id="lot-info"></span>
+          </div>
+        </div>
 
+        <div class="info-item align-center">
+          <img src="/img/expires.jpg" alt="" width="30px" height="25px">
+          <span id="exp-date-info"></span>
+        </div>
+      </div>
+    </div>
+    <div class="badge flex center Specifications">
+      Specifications
+    </div>
+    <div class="info-item">
+      <b>Diameter :</b>
+      <div class="values">
+        <span id="diameter-info"></span>
+      </div>
+    </div>
+    <div class="info-item">
+      <b>Length :</b>
+      <div class="values">
+        <span><span id="length-info"></span> mm</span>
+      </div>
+    </div>
+  </div>
+
+  <form id="info-form">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name">
+    </div>
+    <div class="form-group">
+      <label for="ref-no">Ref. No:</label>
+      <input type="text" id="ref-no">
+    </div>
+    <div class="form-group">
+      <label for="lot">LOT:</label>
+      <input type="text" id="lot">
+    </div>
+    <div class="form-group">
+      <label for="length">Length:</label>
+      <input type="text" id="length">
+    </div>
+
+    <div class="form-group">
+      <label for="exp-date">EXP Date:</label>
+      <input type="date" id="exp-date" name="exp-date" required>
+    </div>
+
+    <div class="form-group">
+      <label for="bar-code">Bar Code:</label>
+      <input type="text" id="bar-code" name="bar-code" required>
+    </div>
+
+    <div class="form-group">
+      <label for="diameter">Diameter:</label>
+      <input type="text" id="diameter" name="diameter" required>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const form = document.getElementById("info-form");
+
+      // UI elements
+      const productName = document.querySelector(".product-name");
+      const refNoInfo = document.getElementById("ref-no-info");
+      const lotInfo = document.getElementById("lot-info");
+      const lengthInfo = document.getElementById("length-info");
+      const expDateInfo = document.getElementById("exp-date-info");
+      const diameterInfo = document.getElementById("diameter-info");
+
+      // Form inputs
+      const nameInput = document.getElementById("name");
+      const refInput = document.getElementById("ref-no");
+      const lengthInput = document.getElementById("length");
+      const lotInput = document.getElementById("lot");
+      const expInput = document.getElementById("exp-date");
+      const diameterInput = document.getElementById("diameter");
+      const barCodeInput = document.getElementById("bar-code");
+
+      // QR container
+      let qrContainer = document.getElementById("qrcode");
+      qrContainer.innerHTML = ""; // Clear default QR
+
+      let qr = new QRCode(qrContainer, {
+        text: "",
+        width: 70,
+        height: 70,
+        colorDark: "#000",
+        colorLight: "#fff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      // Load saved data
+      const savedData = JSON.parse(localStorage.getItem("productData"));
+      if (savedData) {
+        applyToScreen(savedData);
+        applyToForm(savedData);
+        updateQRCode(savedData);
+      }
+
+      // Form submit
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const expFormatted = expInput.value ? expInput.value.slice(0, 7) : "";
+
+        const data = {
+          name: nameInput.value,
+          refNo: refInput.value,
+          lot: lotInput.value,
+          length: lengthInput.value,
+          expDate: expFormatted,
+          diameter: diameterInput.value,
+          barCode: barCodeInput.value
+        };
+
+        applyToScreen(data);
+        updateQRCode(data);
+
+        localStorage.setItem("productData", JSON.stringify(data));
+      });
+
+      // Apply data to UI
+      function applyToScreen(data) {
+        productName.textContent = data.name;
+        refNoInfo.textContent = data.refNo;
+        lotInfo.textContent = data.lot;
+        lengthInfo.textContent = data.length;
+        expDateInfo.textContent = data.expDate;
+        diameterInfo.textContent = data.diameter;
+      }
+
+      // Prefill form
+      function applyToForm(data) {
+        nameInput.value = data.name;
+        refInput.value = data.refNo;
+        lotInput.value = data.lot;
+        lengthInput.value = data.length;
+        expInput.value = data.expDate ? data.expDate + "-01" : "";
+        diameterInput.value = data.diameter;
+        barCodeInput.value = data.barCode;
+      }
+
+      // Update QR code
+      function updateQRCode(data) {
+        qrContainer.innerHTML = ""; // reset QR
+        console.log(JSON.stringify(data));
+        qr = new QRCode(qrContainer, {
+          text: JSON.stringify(data.barCode),   // ✅ dynamic QR code content
+          width: 80,
+          height: 80,
+          colorDark: "#000",
+          colorLight: "#fff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+
+    });
+  </script>
 
 </body>
+
 </html>
