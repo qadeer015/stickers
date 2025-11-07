@@ -21,7 +21,7 @@
     <div class="product-name"></div>
     <div class="flex between">
       <div id="qrcode"></div>
-      <div class="info-container between">
+      <div class="info-container between margens">
         <div class="info-item">
           <b class="badge">REF</b>
           <div class="values">
@@ -41,19 +41,31 @@
         </div>
       </div>
     </div>
-    <div class="badge flex center Specifications">
-      Specifications
+    <div class="flex  Specifications">
+      <div class="footer-item">
+        <b>Diameter :</b>
+        <div class="values">
+          <span id="diameter-info"></span>
+        </div>
+      </div>
+      <div class="footer-item">
+        <b>Length :</b>
+        <div class="values">
+          <span><span id="length-info"></span> </span>
+        </div>
+      </div>
+
     </div>
-    <div class="info-item">
-      <b>Diameter :</b>
+    <div class="footer-item">
+      <b>Mfg By :</b>
       <div class="values">
-        <span id="diameter-info"></span>
+        <span id="mfg-by-info"></span>
       </div>
     </div>
-    <div class="info-item">
-      <b>Length :</b>
+
+    <div class="footer-item center badge address-box">
       <div class="values">
-        <span><span id="length-info"></span> mm</span>
+        <span id="address-info"></span>
       </div>
     </div>
   </div>
@@ -91,6 +103,16 @@
       <input type="text" id="diameter" name="diameter" required>
     </div>
 
+    <div class="form-group">
+      <label for="mfg-by">Mfg By:</label>
+      <input type="text" id="mfg-by" name="mfg-by" required>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address:</label>
+      <input type="text" id="address" name="address" required>
+    </div>
+
     <button type="submit">Submit</button>
   </form>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -107,6 +129,8 @@
       const lengthInfo = document.getElementById("length-info");
       const expDateInfo = document.getElementById("exp-date-info");
       const diameterInfo = document.getElementById("diameter-info");
+      const mfgByInfo = document.getElementById("mfg-by-info");
+      const addressInfo = document.getElementById("address-info");
 
       // Form inputs
       const nameInput = document.getElementById("name");
@@ -116,6 +140,9 @@
       const expInput = document.getElementById("exp-date");
       const diameterInput = document.getElementById("diameter");
       const barCodeInput = document.getElementById("bar-code");
+      const mfgByInput = document.getElementById("mfg-by");
+      const addressInput = document.getElementById("address");
+
 
       // QR container
       let qrContainer = document.getElementById("qrcode");
@@ -151,7 +178,9 @@
           length: lengthInput.value,
           expDate: expFormatted,
           diameter: diameterInput.value,
-          barCode: barCodeInput.value
+          barCode: barCodeInput.value,
+          mfgBy: mfgByInput.value,
+          address: addressInput.value
         };
 
         applyToScreen(data);
@@ -168,6 +197,8 @@
         lengthInfo.textContent = data.length;
         expDateInfo.textContent = data.expDate;
         diameterInfo.textContent = data.diameter;
+        mfgByInfo.textContent = data.mfgBy;
+        addressInfo.textContent = data.address;
       }
 
       // Prefill form
@@ -179,6 +210,8 @@
         expInput.value = data.expDate ? data.expDate + "-01" : "";
         diameterInput.value = data.diameter;
         barCodeInput.value = data.barCode;
+        mfgByInput.value = data.mfgBy;
+        addressInput.value = data.address;
       }
 
       // Update QR code

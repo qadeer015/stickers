@@ -6,7 +6,7 @@ body{
 }
 
 #parrent{
-    padding:55px;
+    padding:70px 55px;
     width: 2.5in;
     margin: 0 auto;
     height: 2in;
@@ -44,6 +44,17 @@ body{
     width: 100%;
 }
 
+.address-box{
+    margin-top: 5px;
+}
+.footer-item{
+    font-size: 12px;
+    display: flex;
+    font-weight: normal;
+    gap: 2px;
+    width: 100%;
+}
+
 .date-item {
     display: flex;
     align-items: center;
@@ -56,6 +67,9 @@ body{
 
 .between{
     justify-content: space-between;
+}
+.margens{
+        width: 60%;
 }
 
 .align-center{
